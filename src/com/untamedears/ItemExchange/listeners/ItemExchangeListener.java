@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.CraftingInventory;
@@ -92,7 +92,7 @@ public class ItemExchangeListener implements Listener {
 		
 		final Inventory top = event.getView().getTopInventory();
 		
-		if(top.getType() == InventoryType.CRAFTING && event.getWhoClicked() instanceof Player) {
+		if(top instanceof CraftingInventory && event.getWhoClicked() instanceof Player) {
 			final Player player = (Player) event.getWhoClicked();
 			
 			Bukkit.getScheduler().scheduleSyncDelayedTask(ItemExchangePlugin.instance, new Runnable() {
@@ -147,5 +147,24 @@ public class ItemExchangeListener implements Listener {
 		}
 		catch (ExchangeRuleParseException e) {
 		}
+	}
+	
+	@EventHandler
+	public void onInventoryMove(InventoryMoveItemEvent event) {
+		ItemStack item = event.getItem();
+		
+		try {
+			ExchangeRule.parseRuleBlock(item);
+		}
+		catch(ExchangeRuleParseException e) {
+			try {
+				ExchangeRule.parseBulkRuleBlock(item);
+			}
+			catch(ExchangeRuleParseException e2) {
+				return;
+			}
+		}
+		
+		event.setCancelled(true);
 	}
 }
