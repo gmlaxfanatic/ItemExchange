@@ -41,7 +41,7 @@ public class ItemExchangePlugin extends JavaPlugin {
 			Material.DIAMOND_SPADE, Material.GOLD_SPADE, Material.STONE_SPADE, Material.WOOD_SPADE, 
 			Material.DIAMOND_HOE, Material.GOLD_HOE, Material.STONE_HOE, Material.WOOD_HOE, 
 			Material.BOW, Material.SHEARS, Material.FISHING_ROD, Material.FLINT_AND_STEEL, Material.CARROT_STICK);
-	public static final boolean CITADEL_ENABLED = false;
+	public static final boolean CITADEL_ENABLED = true;
 	// Maps that provide a 1:1 relationship between commonly used/displayed item
 	// and enchantment names
 	// and their bukkit counterparts. The itemstack mapping may be incomplete,
