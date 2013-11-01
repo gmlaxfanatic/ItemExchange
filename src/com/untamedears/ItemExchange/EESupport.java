@@ -13,7 +13,7 @@ public class EESupport {
 	public static void checkEESupport() {
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("EnderExpansion");
 		
-		if(plugin instanceof Enderplugin) {
+		if(plugin != null && plugin instanceof Enderplugin) {
 			plugin = (Enderplugin) plugin;
 		}
 	}
