@@ -62,6 +62,8 @@ public class ItemExchangePlugin extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		
+		EESupport.checkEESupport();
+		
 		// load the config.yml
 		initConfig();
 		// Import CSVs

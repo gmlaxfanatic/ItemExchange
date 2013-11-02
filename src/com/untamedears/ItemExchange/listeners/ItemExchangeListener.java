@@ -28,6 +28,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
+import com.untamedears.ItemExchange.EESupport;
 import com.untamedears.ItemExchange.ItemExchangePlugin;
 import com.untamedears.ItemExchange.exceptions.ExchangeRuleParseException;
 import com.untamedears.ItemExchange.utility.ExchangeRule;
@@ -54,9 +55,16 @@ public class ItemExchangeListener implements Listener {
 		// If a player using an interacting action
 		if (e.getAction() == LEFT_CLICK_BLOCK) {
 			// If block is a possible exchange
+			Inventory exchangeInventory = null;
+			
 			if (ItemExchangePlugin.ACCEPTABLE_BLOCKS.contains(e.getClickedBlock().getType())) {
-				// If the block contains exchangeItems
-				Inventory exchangeInventory = ((InventoryHolder) e.getClickedBlock().getState()).getInventory();
+				exchangeInventory = ((InventoryHolder) e.getClickedBlock().getState()).getInventory();
+			}
+			else if(EESupport.isSupported() && e.getClickedBlock().getType() == Material.ENDER_CHEST) {
+				exchangeInventory = EESupport.getInventory(e.getClickedBlock());
+			}
+			
+			if(exchangeInventory != null) {
 				ItemExchange itemExchange = ItemExchange.getItemExchange(exchangeInventory);
 				if (itemExchange.isValid()) {
 					itemExchange.playerResponse(player, itemStack, e.getClickedBlock().getLocation());

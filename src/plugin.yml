@@ -11,3 +11,4 @@ commands:
     aliases: ies
     description: Sets the field of the ExchangeRule held in hand
     usage: /ieset (or /ies) <field> [value] [modifier]
+softdepend: [EnderExpansion]

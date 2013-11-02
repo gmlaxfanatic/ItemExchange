@@ -22,6 +22,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import com.untamedears.ItemExchange.EESupport;
 import com.untamedears.ItemExchange.ItemExchangePlugin;
 import com.untamedears.ItemExchange.events.IETransactionEvent;
 import com.untamedears.ItemExchange.exceptions.ExchangeRuleCreateException;
@@ -104,8 +105,17 @@ public class ItemExchange {
 
 	public static String createExchange(Location location, Player player) {
 		//Bail if location doesn't contain an an accpetable inventory block
-		if (ItemExchangePlugin.ACCEPTABLE_BLOCKS.contains(location.getBlock().getType()) && location.getBlock().getState() instanceof InventoryHolder) {
-			Inventory inventory = ((InventoryHolder) location.getBlock().getState()).getInventory();
+		Block block = location.getBlock();
+		Inventory inventory = null;
+		
+		if (ItemExchangePlugin.ACCEPTABLE_BLOCKS.contains(block.getType()) && location.getBlock().getState() instanceof InventoryHolder) {
+			inventory = ((InventoryHolder) location.getBlock().getState()).getInventory();
+		}
+		else if(EESupport.isSupported() && block.getType() == Material.ENDER_CHEST) {
+			inventory = EESupport.getInventory(block);
+		}
+		
+		if(inventory != null) {
 			ItemStack input = null;
 			ItemStack output = null;
 			//Checks for two different unique types of items in the inventory and sums up their amounts from the individual itemStacks
