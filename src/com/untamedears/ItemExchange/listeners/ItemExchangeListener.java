@@ -60,8 +60,7 @@ public class ItemExchangeListener implements Listener {
 			if (ItemExchangePlugin.ACCEPTABLE_BLOCKS.contains(e.getClickedBlock().getType())) {
 				exchangeInventory = ((InventoryHolder) e.getClickedBlock().getState()).getInventory();
 			}
-			
-			if(EESupport.isSupported()) {
+			else if(EESupport.isSupported() && e.getClickedBlock().getType() == Material.ENDER_CHEST) {
 				exchangeInventory = EESupport.getInventory(e.getClickedBlock());
 			}
 			

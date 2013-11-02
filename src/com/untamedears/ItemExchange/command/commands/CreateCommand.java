@@ -11,6 +11,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.untamedears.ItemExchange.EESupport;
 import com.untamedears.ItemExchange.ItemExchangePlugin;
 import com.untamedears.ItemExchange.command.PlayerCommand;
 import com.untamedears.ItemExchange.exceptions.ExchangeRuleCreateException;
@@ -40,7 +41,9 @@ public class CreateCommand extends PlayerCommand {
 		//If no input or ouptut is specified player attempt to set up ItemExchange at the block the player is looking at
 		//The player must have citadel access to the inventory block
 		if (args.length == 0) {
-			if (ItemExchangePlugin.ACCEPTABLE_BLOCKS.contains(block.getState().getType())) {
+			boolean eeChest = EESupport.isSupported() && block.getType() == Material.ENDER_CHEST;
+			
+			if (ItemExchangePlugin.ACCEPTABLE_BLOCKS.contains(block.getState().getType()) || eeChest) {
 				PlayerInteractEvent event = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, player.getItemInHand(), block, BlockFace.UP);
 				
 				Bukkit.getPluginManager().callEvent(event);
